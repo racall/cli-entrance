@@ -153,9 +153,10 @@ TerminalShell.filters.push(function (terminal, cmd) {
 
 TerminalShell.commands['shutdown'] = TerminalShell.commands['poweroff'] = function(terminal) {
 	if (this.sudo) {
-		terminal.print('Broadcast message from guest@xkcd');
+		terminal.print('Broadcast message from guest@atr.me');
 		terminal.print();
 		terminal.print('The system is going down for maintenance NOW!');
+		terminal.print('El Psy Congroo!');
 		return $('#screen').fadeOut();
 	} else {
 		terminal.print('Must be root.');
@@ -165,7 +166,7 @@ TerminalShell.commands['shutdown'] = TerminalShell.commands['poweroff'] = functi
 TerminalShell.commands['logout'] =
 TerminalShell.commands['exit'] = 
 TerminalShell.commands['quit'] = function(terminal) {
-	terminal.print('Bye.');
+	terminal.print('El Psy Congroo!');
 	$('#prompt, #cursor').hide();
 	terminal.promptActive = false;
 };
@@ -188,37 +189,33 @@ function linkFile(url) {
 
 Filesystem = {
 	'welcome.txt': {type:'file', read:function(terminal) {
-		terminal.print($('<h4>').text('Welcome to the unixkcd console.'));
-		terminal.print('To navigate the comics, enter "next", "prev", "first", "last", "display", or "random".');
+		terminal.print();
+		terminal.print($('<h4>').text('~Welcome to the atr.me console entrance~'));
 		terminal.print('Use "ls", "cat", and "cd" to navigate the filesystem.');
+		terminal.print('Type "help" for assistance.');
+		terminal.print();
 	}},
-	'license.txt': {type:'file', read:function(terminal) {
-		terminal.print($('<p>').html('Client-side logic for Wordpress CLI theme :: <a href="http://thrind.xamai.ca/">R. McFarland, 2006, 2007, 2008</a>'));
-		terminal.print($('<p>').html('jQuery rewrite and overhaul :: <a href="http://www.chromakode.com/">Chromakode, 2010</a>'));
+	'about.txt': {type:'file', read:function(terminal) {
+		terminal.print();
+		terminal.print($('<h4>').text('ABOUT THE SITE'));
 		terminal.print();
 		$.each([
-			'This program is free software; you can redistribute it and/or',
-			'modify it under the terms of the GNU General Public License',
-			'as published by the Free Software Foundation; either version 2',
-			'of the License, or (at your option) any later version.',
+			'This is the homepage, and also the console entrance of atr.me.',
+			'Atr.me is the personal website of me, here you can find the way',
+			'to my two blogs, the zh_CN one and the en_US one. For more about',
+			'myself, you can check the \"AboutMe\" directory.',
 			'',
-			'This program is distributed in the hope that it will be useful,',
-			'but WITHOUT ANY WARRANTY; without even the implied warranty of',
-			'MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the',
-			'GNU General Public License for more details.',
-			'',
-			'You should have received a copy of the GNU General Public License',
-			'along with this program; if not, write to the Free Software',
-			'Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.'
+			'Also you may try out many other commands, have fun~',
+			''
 		], function(num, line) {
 			terminal.print(line);
 		});
 	}}
 };
-Filesystem['blog'] = Filesystem['blag'] = linkFile('http://blag.xkcd.com');
-Filesystem['forums'] = Filesystem['fora'] = linkFile('http://forums.xkcd.com/');
-Filesystem['store'] = linkFile('http://store.xkcd.com/');
-Filesystem['about'] = linkFile('http://xkcd.com/about/');
+Filesystem['blog-cn'] = linkFile('http://blog.atr.me/');
+Filesystem['blog-en'] = linkFile('http://iblog.atr.me/');
+Filesystem['wiki'] = linkFile('http://wiki.atr.me/');
+Filesystem['AboutMe'] = linkFile('http://about.me/AstroProfundis');
 TerminalShell.pwd = Filesystem;
 
 TerminalShell.commands['cd'] = function(terminal, path) {
@@ -263,7 +260,7 @@ TerminalShell.commands['cat'] = function(terminal, path) {
 			terminal.setWorking(false);
 		});
 	} else {
-		terminal.print('You\'re a kitty!');
+		terminal.print('Nyan~ nyan~~ nyaan~~~~~');
 	}
 };
 
@@ -292,22 +289,56 @@ TerminalShell.commands['rm'] = function(terminal, flags, path) {
 	}
 };
 
-TerminalShell.commands['cheat'] = function(terminal) {
-	terminal.print($('<a>').text('*** FREE SHIPPING ENABLED ***').attr('href', 'http://store.xkcd.com/'));
-}; 
-
-TerminalShell.commands['reddit'] = function(terminal, num) {
-	num = Number(num);
-	if (num) {
-		url = 'http://xkcd.com/'+num+'/';
-	} else {
-		var url = window.location;
-	}
-	terminal.print($('<iframe src="http://www.reddit.com/static/button/button1.html?width=140&url='+encodeURIComponent(url)+'&newwindow=1" height="22" width="140" scrolling="no" frameborder="0"></iframe>'));
-};
-
 TerminalShell.commands['wget'] = TerminalShell.commands['curl'] = function(terminal, dest) {
-	if (dest) {
+	if (dest == "blog" || dest == "blog-cn") {
+		terminal.setWorking(true);
+		var browser = $('<div>')
+			.addClass('browser')
+			.append($('<iframe>')
+					.attr('src', "http://blog.atr.me").width("100%").height(600)
+					.one('load', function() {
+						terminal.setWorking(false);
+					}));
+		terminal.print(browser);
+		terminal.print("If returned a 404 error, please add http://, https:// or ftp:// at start of the URL.");
+		return browser;
+	} else if (dest == "blog-en") {
+		terminal.setWorking(true);
+		var browser = $('<div>')
+			.addClass('browser')
+			.append($('<iframe>')
+					.attr('src', "http://iblog.atr.me").width("100%").height(600)
+					.one('load', function() {
+						terminal.setWorking(false);
+					}));
+		terminal.print(browser);
+		terminal.print("If returned a 404 error, please add http://, https:// or ftp:// at start of the URL.");
+		return browser;
+	} else if (dest == "wiki") {
+		terminal.setWorking(true);
+		var browser = $('<div>')
+			.addClass('browser')
+			.append($('<iframe>')
+					.attr('src', "http://wiki.atr.me").width("100%").height(600)
+					.one('load', function() {
+						terminal.setWorking(false);
+					}));
+		terminal.print(browser);
+		terminal.print("If returned a 404 error, please add http://, https:// or ftp:// at start of the URL.");
+		return browser;
+	} else if (dest == "AboutMe" || dest == "aboutme") {
+		terminal.setWorking(true);
+		var browser = $('<div>')
+			.addClass('browser')
+			.append($('<iframe>')
+					.attr('src', "http://about.me/AstroProfundis").width("100%").height(600)
+					.one('load', function() {
+						terminal.setWorking(false);
+					}));
+		terminal.print(browser);
+		terminal.print("If returned a 404 error, please add http://, https:// or ftp:// at start of the URL.");
+		return browser;
+	} else if (dest) {
 		terminal.setWorking(true);
 		var browser = $('<div>')
 			.addClass('browser')
@@ -317,30 +348,12 @@ TerminalShell.commands['wget'] = TerminalShell.commands['curl'] = function(termi
 						terminal.setWorking(false);
 					}));
 		terminal.print(browser);
+		terminal.print("If returned a 404 error, please add http://, https:// or ftp:// at start of the URL.");
 		return browser;
 	} else {
 		terminal.print("Please specify a URL.");
+		terminal.print("If returned a 404 error, please add http://, https:// or ftp:// at start of the URL.");
 	}
-};
-
-TerminalShell.commands['write'] =
-TerminalShell.commands['irc'] = function(terminal, nick) {
-	if (nick) {
-		$('.irc').slideUp('fast', function() {
-			$(this).remove();
-		});
-		var url = "http://widget.mibbit.com/?server=irc.foonetic.net&channel=%23xkcd";
-		if (nick) {
-			url += "&nick=" + encodeURIComponent(nick);
-		}
-		TerminalShell.commands['curl'](terminal, url).addClass('irc');
-	} else {
-		terminal.print('usage: irc <nick>');
-	}
-};
-
-TerminalShell.commands['unixkcd'] = function(terminal, nick) {
-	TerminalShell.commands['curl'](terminal, "http://www.xkcd.com/unixkcd/");
 };
 
 TerminalShell.commands['apt-get'] = function(terminal, subcmd) {
@@ -394,7 +407,7 @@ TerminalShell.commands['man'] = function(terminal, what) {
 		'last': 'Man, last night was AWESOME.',
 		'help': 'Man, help me out here.',
 		'next': 'Request confirmed; you will be reincarnated as a man next.',
-		'cat':  'You are now riding a half-man half-cat.'
+		'cat':  'Well now, are you a half-blood human from Nyan Planet?'
 	};
 	if (!oneLiner(terminal, what, pages)) {
 		terminal.print('Oh, I\'m sure you can figure it out.');
@@ -407,7 +420,9 @@ TerminalShell.commands['locate'] = function(terminal, what) {
 		'keys': 'Have you checked your coat pocket?',
 		'joke': 'Joke found on user.',
 		'problem': 'Problem exists between keyboard and chair.',
-		'raptor': 'BEHIND YOU!!!'
+		'raptor': 'BEHIND YOU!!!',
+		'IBN5100': 'BE CAREFUL! Kikan is watching you!',
+		'ibn5100': 'BE CAREFUL! Kikan is watching you!'
 	};
 	if (!oneLiner(terminal, what, keywords)) {
 		terminal.print('Locate what?');
@@ -507,7 +522,14 @@ TerminalShell.commands['sleep'] = function(terminal, duration) {
 
 // No peeking!
 TerminalShell.commands['help'] = TerminalShell.commands['halp'] = function(terminal) {
-	terminal.print('That would be cheating!');
+	terminal.print();
+	terminal.print($('<h4>').text('That would be cheating!'));
+	terminal.print('Here\'re basic skills you may need:');
+	terminal.print('- Use "ls" or "dir" to browse a directory.');
+	terminal.print('- Use "cd" to move to a directory.');
+	terminal.print('- Use "cat" to read a file in pure text.');
+	terminal.print('And try out anything you like, most Unix commands works.');
+	terminal.print();
 }; 
 
 TerminalShell.fallback = function(terminal, cmd) {
@@ -519,29 +541,33 @@ TerminalShell.fallback = function(terminal, cmd) {
 		'lpr': 'PC LOAD LETTER',
 		'hello joshua': 'How about a nice game of Global Thermonuclear War?',
 		'xyzzy': 'Nothing happens.',
-		'date': 'March 32nd',
+		'date': 'You\'re a good human.',
 		'hello': 'Why hello there!',
-		'who': 'Doctor Who?',
+		'who': 'President Who?',
 		'xkcd': 'Yes?',
+		'atr': 'Hm?',
 		'su': 'God mode activated. Remember, with great power comes great ... aw, screw it, go have fun.',
 		'fuck': 'I have a headache.',
-		'whoami': 'You are Richard Stallman.',
+		'whoami': 'You\'re a good human being.',
 		'nano': 'Seriously? Why don\'t you just use Notepad.exe? Or MS Paint?',
 		'top': 'It\'s up there --^',
 		'moo':'moo',
 		'ping': 'There is another submarine three miles ahead, bearing 225, forty fathoms down.',
-		'find': 'What do you want to find? Kitten would be nice.',
+		'find': 'What do you want to find? IBN5100?',
 		'hello':'Hello.','more':'Oh, yes! More! More!',
 		'your gay': 'Keep your hands off it!',
 		'hi':'Hi.','echo': 'Echo ... echo ... echo ...',
 		'bash': 'You bash your head against the wall. It\'s not very effective.','ssh': 'ssh, this is a library.',
-		'uname': 'Illudium Q-36 Explosive Space Modulator',
+		'uname': 'Future Gadget',
+		'uname -a': 'Future Gadget atr.me C204 3nd EDITION ver3.16 #1 Last Update: Mon Oct. 01 2012',
 		'finger': 'Mmmmmm...',
-		'kill': 'Terminator deployed to 1984.',
+		'kill': 'Terminator deployed to 1973.',
 		'use the force luke': 'I believe you mean source.',
 		'use the source luke': 'I\'m not luke, you\'re luke!',
 		'serenity': 'You can\'t take the sky from me.',
-		'enable time travel': 'TARDIS error: Time Lord missing.',
+		'enable time travel': 'FATAL error: You didn\'t find IBN5100.',
+		'IBN5100': 'No I\'m not IBN5100, I\'m Future Gadget C204',
+		'ibn5100': 'No I\'m not IBN5100, I\'m Future Gadget C204',
 		'ed': 'You are not a diety.'
 	};
 	oneliners['emacs'] = 'You should really use vim.';
@@ -567,8 +593,8 @@ TerminalShell.fallback = function(terminal, cmd) {
  				'Use the source, Luke!',
  				'There are cheat codes.'
  			]));
-		} else if (cmd == 'find kitten') {
-			terminal.print($('<iframe width="800" height="600" src="http://www.robotfindskitten.net/rfk.swf"></iframe>'));
+		} else if (cmd == 'find IBN5100' || cmd == 'find ibn5100') {
+			terminal.print('find: "IBN5100": No such Future Gadget');
 		} else if (cmd == 'buy stuff') {
 			Filesystem['store'].enter();
 		} else if (cmd == 'time travel') {
@@ -597,7 +623,7 @@ $(document).ready(function() {
 				$('#screen').one('cli-ready', function(e) {
 					Terminal.runCommand('cat welcome.txt');
 				});
-				Terminal.runCommand('display '+xkcd.latest.num+'/'+pathFilename(xkcd.latest.img));
+				Terminal.runCommand('cat welcome.txt');
 			} else {
 				noData();
 			}
@@ -621,7 +647,7 @@ $(document).ready(function() {
 		} else if (konamiCount == 3) {
 			shake($('#screen'));
 		} else if (konamiCount == 4) {
-			$('#screen').css('background', 'url(/unixkcd/over9000.png) center no-repeat');
+			$('#screen').css('background', 'url(./stardots.png)');
 		}
 		
 		$('<div>')

@@ -1,5 +1,9 @@
-unixkcd
+蘑菇天文馆命令行入口
 =========
+修改自 unixkcd, 由于未能成功使用原项目构建工具，故直接对源文件进行了修改，将 src 目录中各文件按需自行修改后放到网站根目录即可。
+
+unixkcd
+-------
 
 An interactive web interface for the webcomic [xkcd](http://xkcd.com) resembling a Unix terminal. Comics can be browsed and displayed efficiently via the commands "first", "prev", "next", and "last".
 
