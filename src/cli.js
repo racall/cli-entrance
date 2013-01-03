@@ -103,13 +103,13 @@ var Terminal = {
 	output: TerminalShell,
 	
 	config: {
-		scrollStep:			20,
+		scrollStep:		20,
 		scrollSpeed:		100,
-		bg_color:			'#000',
-		fg_color:			'#FFF',
+		bg_color:		'#000',
+		fg_color:		'#FFF',
 		cursor_blink_time:	700,
 		cursor_style:		'block',
-		prompt:				'guest@atr.me:/$ ',
+		prompt:			'[guest@atr.me ~]# ',
 		spinnerCharacters:	['[   ]','[.  ]','[.. ]','[...]'],
 		spinnerSpeed:		250,
 		typingSpeed:		50
