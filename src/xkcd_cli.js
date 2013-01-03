@@ -190,9 +190,9 @@ function linkFile(url) {
 Filesystem = {
 	'welcome.txt': {type:'file', read:function(terminal) {
 		terminal.print();
-		terminal.print($('<h4>').text('~Welcome to the atr.me console entrance~'));
+		terminal.print($('<h4>').text('~Welcome to the atr.me command line entrance~'));
 		terminal.print('Use "ls", "cat", and "cd" to navigate the filesystem.');
-		terminal.print('Type "help" for assistance.');
+		terminal.print('If confused, ype "help" for assistance.');
 		terminal.print();
 	}},
 	'about.txt': {type:'file', read:function(terminal) {
@@ -200,12 +200,12 @@ Filesystem = {
 		terminal.print($('<h4>').text('ABOUT THE SITE'));
 		terminal.print();
 		$.each([
-			'This is the homepage, and also the console entrance of atr.me.',
-			'Atr.me is the personal website of me, here you can find the way',
-			'to my two blogs, the zh_CN one and the en_US one. For more about',
-			'myself, you can check the \"AboutMe\" directory.',
+			'This is the homepage, and also the command line entrance of atr.me.',
+			'Atr.me is the personal website of mine, here you can find the way',
+			'to my two blogs, the zh_CN one and the en_US one. For more about me,',
+			'you can check the \"AboutMe\" directory or the blogs.',
 			'',
-			'Also you may try out many other commands, have fun~',
+			'Also you may try to take an adventure here, just have fun~',
 			''
 		], function(num, line) {
 			terminal.print(line);
@@ -352,11 +352,10 @@ TerminalShell.commands['wget'] = TerminalShell.commands['curl'] = function(termi
 		return browser;
 	} else {
 		terminal.print("Please specify a URL.");
-		terminal.print("If returned a 404 error, please add http://, https:// or ftp:// at start of the URL.");
 	}
 };
 
-TerminalShell.commands['apt-get'] = function(terminal, subcmd) {
+TerminalShell.commands['apt-get'] = TerminalShell.commands['aptitude'] = function(terminal, subcmd) {
 	if (!this.sudo && (subcmd in {'update':true, 'upgrade':true, 'dist-upgrade':true})) {
 		terminal.print('E: Unable to lock the administration directory, are you root?');
 	} else {
@@ -431,7 +430,7 @@ TerminalShell.commands['locate'] = function(terminal, what) {
 
 Adventure = {
 	rooms: {
-		0:{description:'You are at a computer using unixkcd.', exits:{west:1, south:10}},
+		0:{description:'You are at a Future Gadget.', exits:{west:1, south:10}},
 		1:{description:'Life is peaceful there.', exits:{east:0, west:2}},
 		2:{description:'In the open air.', exits:{east:1, west:3}},
 		3:{description:'Where the skies are blue.', exits:{east:2, west:4}},
@@ -485,15 +484,17 @@ TerminalShell.commands['go'] = Adventure.go = function(terminal, direction) {
 		Adventure.goTo(terminal, Adventure.location.exits[direction]);
 	} else if (!direction) {
 		terminal.print('Go where?');
+	} else if (direction == 'up') {
+		terminal.print("I don't have a swing.");
 	} else if (direction == 'down') {
 		terminal.print("On our first date?");
-	} else {
+	} else if {
 		terminal.print('You cannot go '+direction+'.');
 	}
 };
 
 TerminalShell.commands['light'] = function(terminal, what) {
-	if (what == "lamp") {
+	if (what == "lamp" || what == "candle") {
 		if (!Adventure.status.lamp) {
 			terminal.print('You set your lamp ablaze.');
 			Adventure.status.lamp = true;
@@ -523,7 +524,7 @@ TerminalShell.commands['sleep'] = function(terminal, duration) {
 // No peeking!
 TerminalShell.commands['help'] = TerminalShell.commands['halp'] = function(terminal) {
 	terminal.print();
-	terminal.print($('<h4>').text('That would be cheating!'));
+	terminal.print($('<h4>').text('This would be cheating!'));
 	terminal.print('Here\'re basic skills you may need:');
 	terminal.print('- Use "ls" or "dir" to browse a directory.');
 	terminal.print('- Use "cd" to move to a directory.');
@@ -544,22 +545,26 @@ TerminalShell.fallback = function(terminal, cmd) {
 		'date': 'You\'re a good human.',
 		'hello': 'Why hello there!',
 		'who': 'President Who?',
-		'xkcd': 'Yes?',
+		'xkcd': 'You may call me atr.',
 		'atr': 'Hm?',
 		'su': 'God mode activated. Remember, with great power comes great ... aw, screw it, go have fun.',
 		'fuck': 'I have a headache.',
+		'Fuck': 'I have a headache.',
 		'whoami': 'You\'re a good human being.',
 		'nano': 'Seriously? Why don\'t you just use Notepad.exe? Or MS Paint?',
 		'top': 'It\'s up there --^',
 		'moo':'moo',
 		'ping': 'There is another submarine three miles ahead, bearing 225, forty fathoms down.',
 		'find': 'What do you want to find? IBN5100?',
-		'hello':'Hello.','more':'Oh, yes! More! More!',
+		'hello':'Hello.',
+		'more':'Oh, yes! More! More!',
 		'your gay': 'Keep your hands off it!',
-		'hi':'Hi.','echo': 'Echo ... echo ... echo ...',
-		'bash': 'You bash your head against the wall. It\'s not very effective.','ssh': 'ssh, this is a library.',
+		'hi':'Hi.',
+		'echo': 'Echo ... echo ... echo ...',
+		'bash': 'You bash your head against the wall. It\'s not very effective.',
+		'ssh': 'ssh, Kikan is watching.',
 		'uname': 'Future Gadget',
-		'uname -a': 'Future Gadget atr.me C204 3nd EDITION ver3.16 #1 Last Update: Mon Oct. 01 2012',
+		'uname -a': 'Future Gadget atr.me C204 3nd EDITION ver3.16 #1 Last Update: Thu Jan. 03 2013',
 		'finger': 'Mmmmmm...',
 		'kill': 'Terminator deployed to 1973.',
 		'use the force luke': 'I believe you mean source.',
@@ -568,7 +573,9 @@ TerminalShell.fallback = function(terminal, cmd) {
 		'enable time travel': 'FATAL error: You didn\'t find IBN5100.',
 		'IBN5100': 'No I\'m not IBN5100, I\'m Future Gadget C204',
 		'ibn5100': 'No I\'m not IBN5100, I\'m Future Gadget C204',
-		'ed': 'You are not a diety.'
+		'ed': 'You are not a diety.',
+		'netstat': 'CODE 418: are you a teapot?'
+		'whereis': 'Where your treasure is, there will your heart be also.'
 	};
 	oneliners['emacs'] = 'You should really use vim.';
 	oneliners['vi'] = oneliners['vim'] = 'You should really use emacs.';
