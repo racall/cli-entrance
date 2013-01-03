@@ -192,7 +192,7 @@ Filesystem = {
 		terminal.print();
 		terminal.print($('<h4>').text('~Welcome to the atr.me command line entrance~'));
 		terminal.print('Use "ls", "cat", and "cd" to navigate the filesystem.');
-		terminal.print('If confused, ype "help" for assistance.');
+		terminal.print('If confused, type "help" for assistance.');
 		terminal.print();
 	}},
 	'about.txt': {type:'file', read:function(terminal) {
@@ -488,7 +488,7 @@ TerminalShell.commands['go'] = Adventure.go = function(terminal, direction) {
 		terminal.print("I don't have a swing.");
 	} else if (direction == 'down') {
 		terminal.print("On our first date?");
-	} else if {
+	} else {
 		terminal.print('You cannot go '+direction+'.');
 	}
 };
@@ -574,7 +574,7 @@ TerminalShell.fallback = function(terminal, cmd) {
 		'IBN5100': 'No I\'m not IBN5100, I\'m Future Gadget C204',
 		'ibn5100': 'No I\'m not IBN5100, I\'m Future Gadget C204',
 		'ed': 'You are not a diety.',
-		'netstat': 'CODE 418: are you a teapot?'
+		'netstat': 'CODE 418: are you a teapot?',
 		'whereis': 'Where your treasure is, there will your heart be also.'
 	};
 	oneliners['emacs'] = 'You should really use vim.';
