@@ -564,7 +564,7 @@ TerminalShell.fallback = function(terminal, cmd) {
 		'bash': 'You bash your head against the wall. It\'s not very effective.',
 		'ssh': 'ssh, Kikan is watching.',
 		'uname': 'Future Gadget',
-		'uname -a': 'Future Gadget atr.me C204 3nd EDITION ver3.16 #1 Last Update: Thu Jan. 03 2013',
+		'uname -a': 'Future Gadget atr.me C204 3nd EDITION ver3.16 #1 Last Update: Fri Jan. 25 2013',
 		'finger': 'Mmmmmm...',
 		'kill': 'Terminator deployed to 1973.',
 		'use the force luke': 'I believe you mean source.',
