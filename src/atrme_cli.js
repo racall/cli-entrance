@@ -529,7 +529,7 @@ TerminalShell.commands['help'] = TerminalShell.commands['halp'] = function(termi
 	terminal.print('- Use "ls" or "dir" to browse a directory.');
 	terminal.print('- Use "cd" to move to a directory.');
 	terminal.print('- Use "cat" to read a file in pure text.');
-	terminal.print('And try out anything you like, most Unix commands works.');
+	terminal.print('And try out anything you like, most Unix commands would work.');
 	terminal.print();
 }; 
 
