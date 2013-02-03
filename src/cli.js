@@ -1,4 +1,4 @@
-/* 	
+﻿/* 	
  Client-side logic for Wordpress CLI theme
  R. McFarland, 2006, 2007, 2008
  http://thrind.xamai.ca/

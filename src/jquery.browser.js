@@ -1,4 +1,4 @@
-/*!
+﻿/*!
 jQuery Browser Plugin
 	* Version 2.3
 	* 2008-09-17 19:27:05

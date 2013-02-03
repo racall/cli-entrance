@@ -1,4 +1,4 @@
-function pathFilename(path) {
+﻿function pathFilename(path) {
 	var match = /\/([^\/]+)$/.exec(path);
 	if (match) {
 		return match[1];

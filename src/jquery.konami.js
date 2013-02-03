@@ -1,4 +1,4 @@
-/*!
+﻿/*!
  * jQuery Konami code trigger v. 0.1
  *
  * Copyright (c) 2009 Joe Mastey
