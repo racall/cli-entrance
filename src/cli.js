@@ -240,7 +240,7 @@ var Terminal = {
 				}
 			});
 		
-		$(window).resize(function(e) { $('#screen').scrollTop($('#screen').attr('scrollHeight')); });
+		$(window).resize(function(e) { $('#screen').scrollTop($('#screen').prop('scrollHeight')); });
 
 		this.setCursorState(true);
 		this.setWorking(false);
@@ -384,7 +384,7 @@ var Terminal = {
 	},
 
 	jumpToBottom: function() {
-		$('#screen').animate({scrollTop: $('#screen').attr('scrollHeight')}, this.config.scrollSpeed, 'linear');
+		$('#screen').animate({scrollTop: $('#screen').prop('scrollHeight')}, this.config.scrollSpeed, 'linear');
 	},
 
 	jumpToTop: function() {
