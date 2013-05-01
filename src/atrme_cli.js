@@ -76,13 +76,13 @@ var xkcdDisplay = TerminalShell.commands['display'] = function(terminal, path) {
 					
 					var comic = $(this);
 					if (data.link) {
-						comic = $('<a>').attr('href', data.link).append($(this));
+						comic = $('<a>').prop('href', data.link).append($(this));
 					}
 					terminal.print(comic);
 					
 					terminal.setWorking(false);
 				})
-				.attr({src:data.img, alt:data.title, title:data.alt})
+				.prop({src:data.img, alt:data.title, title:data.alt})
 				.addClass('comic');
 		} else {
 			fail();
@@ -295,7 +295,7 @@ TerminalShell.commands['wget'] = TerminalShell.commands['curl'] = function(termi
 		var browser = $('<div>')
 			.addClass('browser')
 			.append($('<iframe>')
-					.attr('src', "http://blog.atr.me").width("100%").height(600)
+					.prop('src', "http://blog.atr.me").width("100%").height(600)
 					.one('load', function() {
 						terminal.setWorking(false);
 					}));
@@ -307,7 +307,7 @@ TerminalShell.commands['wget'] = TerminalShell.commands['curl'] = function(termi
 		var browser = $('<div>')
 			.addClass('browser')
 			.append($('<iframe>')
-					.attr('src', "http://iblog.atr.me").width("100%").height(600)
+					.prop('src', "http://iblog.atr.me").width("100%").height(600)
 					.one('load', function() {
 						terminal.setWorking(false);
 					}));
@@ -319,7 +319,7 @@ TerminalShell.commands['wget'] = TerminalShell.commands['curl'] = function(termi
 		var browser = $('<div>')
 			.addClass('browser')
 			.append($('<iframe>')
-					.attr('src', "http://wiki.atr.me").width("100%").height(600)
+					.prop('src', "http://wiki.atr.me").width("100%").height(600)
 					.one('load', function() {
 						terminal.setWorking(false);
 					}));
@@ -331,7 +331,7 @@ TerminalShell.commands['wget'] = TerminalShell.commands['curl'] = function(termi
 		var browser = $('<div>')
 			.addClass('browser')
 			.append($('<iframe>')
-					.attr('src', "http://about.me/AstroProfundis").width("100%").height(600)
+					.prop('src', "http://about.me/AstroProfundis").width("100%").height(600)
 					.one('load', function() {
 						terminal.setWorking(false);
 					}));
@@ -343,7 +343,7 @@ TerminalShell.commands['wget'] = TerminalShell.commands['curl'] = function(termi
 		var browser = $('<div>')
 			.addClass('browser')
 			.append($('<iframe>')
-					.attr('src', dest).width("100%").height(600)
+					.prop('src', dest).width("100%").height(600)
 					.one('load', function() {
 						terminal.setWorking(false);
 					}));
@@ -363,7 +363,7 @@ TerminalShell.commands['apt-get'] = TerminalShell.commands['aptitude'] = functio
 			terminal.print('Reading package lists... Done');
 		} else if (subcmd == 'upgrade') {
 			if (($.browser.name == 'msie') || ($.browser.name == 'firefox' && $.browser.versionX < 3)) {
-				terminal.print($('<p>').append($('<a>').attr('href', 'http://abetterbrowser.org/').text('To complete installation, click here.')));
+				terminal.print($('<p>').append($('<a>').prop('href', 'http://abetterbrowser.org/').text('To complete installation, click here.')));
 			} else {
 				terminal.print('This looks pretty good to me.');
 			}
