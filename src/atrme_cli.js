@@ -302,7 +302,7 @@ TerminalShell.commands['wget'] = TerminalShell.commands['curl'] = function(termi
 		terminal.print(browser);
 		terminal.print("If returned a 404 error, please add http://, https:// or ftp:// at start of the URL.");
 		return browser;
-	} else if (dest == "blog-en") {
+	} else if (dest == "blog-en" || dest == 'iblog') {
 		terminal.setWorking(true);
 		var browser = $('<div>')
 			.addClass('browser')
