@@ -280,7 +280,7 @@ TerminalShell.commands['rm'] = function(terminal, flags, path) {
 				terminal.print('rm: cannot remove '+path+': Is a directory');
 			}
 		}
-	} else if (flags == '-rf' && path == '/') {
+	} else if (flags == '-rf' || flags == '-Rf' && path == '/') {
 		if (this.sudo) {
 			TerminalShell.commands = {};
 		} else {
