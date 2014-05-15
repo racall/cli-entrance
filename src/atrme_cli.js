@@ -18,7 +18,6 @@ var xkcd = {
 	latest: null,
 	last: null,
 	cache: {},
-	base: 'http://dynamic.xkcd.com/api-0/jsonp/comic/',
 	
 	get: function(num, success, error) {
 		if (num == null) {
@@ -34,91 +33,10 @@ var xkcd = {
 			this.last = this.cache[num];
 			success(this.cache[num]);
 		} else {
-			return $.ajax({
-				url: this.base+path,
-				dataType: 'jsonp',
-				success: $.proxy(function(data) {
-					this.last = this.cache[num] = data;
-					success(data);
-				}, this),
-				error: error});
+			return false;
 		}
 	}
 };
-
-var xkcdDisplay = TerminalShell.commands['display'] = function(terminal, path) {
-	function fail() {
-		terminal.print($('<p>').addClass('error').text('display: unable to open image "'+path+'": No such file or directory.'));
-		terminal.setWorking(false);
-	}
-			
-	if (path) {
-		path = String(path);
-		num = Number(path.match(/^\d+/));
-		filename = pathFilename(path);
-		
-		if (num > xkcd.latest.num) {
-			terminal.print("Time travel mode not enabled.");
-			return;
-		}
-	} else {
-		num = xkcd.last.num;
-	}
-	
-	terminal.setWorking(true);
-	xkcd.get(num, function(data) {
-		if (!filename || (filename == pathFilename(data.img))) {
-			$('<img>')
-				.hide()
-				.load(function() {
-					terminal.print($('<h3>').text(data.num+": "+data.title));
-					$(this).fadeIn();
-					
-					var comic = $(this);
-					if (data.link) {
-						comic = $('<a>').prop('href', data.link).append($(this));
-					}
-					terminal.print(comic);
-					
-					terminal.setWorking(false);
-				})
-				.prop({src:data.img, alt:data.title, title:data.alt})
-				.addClass('comic');
-		} else {
-			fail();
-		}
-	}, fail);
-};
-
-TerminalShell.commands['next'] = function(terminal) {
-	xkcdDisplay(terminal, xkcd.last.num+1);
-};
-
-TerminalShell.commands['previous'] =
-TerminalShell.commands['prev'] = function(terminal) {
-	xkcdDisplay(terminal, xkcd.last.num-1);
-};
-
-TerminalShell.commands['first'] = function(terminal) {
-	xkcdDisplay(terminal, 1);
-};
-
-TerminalShell.commands['latest'] =
-TerminalShell.commands['last'] = function(terminal) {
-	xkcdDisplay(terminal, xkcd.latest.num);
-};
-
-TerminalShell.commands['random'] = function(terminal) {
-	xkcdDisplay(terminal, getRandomInt(1, xkcd.latest.num));
-};
-
-TerminalShell.commands['goto'] = function(terminal, subcmd) {
-	$('#screen').one('cli-ready', function(e) {
-		terminal.print('Did you mean "display"?');
-	});
-	xkcdDisplay(terminal, 292);
-};
-
 
 TerminalShell.commands['sudo'] = function(terminal) {
 	var cmd_args = Array.prototype.slice.call(arguments);
@@ -564,7 +482,7 @@ TerminalShell.fallback = function(terminal, cmd) {
 		'bash': 'You bash your head against the wall. It\'s not very effective.',
 		'ssh': 'ssh, Kikan is watching.',
 		'uname': 'Future Gadget',
-		'uname -a': 'Future Gadget atr.me C204 3nd EDITION ver3.16 #1 Last Update: Thu, May 16 2013',
+		'uname -a': 'Future Gadget atr.me C204 3nd EDITION ver3.16 #1 Last Update: Thu, May 15 2014',
 		'uptime': 'From the past to the future, it\'s up to time.',
 		'free': 'Yes you can look around for free.',
 		'touch': 'Across the Great Wall, we can touch every corner in the world!',
@@ -608,7 +526,7 @@ TerminalShell.fallback = function(terminal, cmd) {
 		} else if (cmd == 'buy stuff') {
 			Filesystem['store'].enter();
 		} else if (cmd == 'time travel') {
-			xkcdDisplay(terminal, 630);
+			terminal.print('Error: No IBN5100 available.');
 		} else if (/:\(\)\s*{\s*:\s*\|\s*:\s*&\s*}\s*;\s*:/.test(cmd)) {
 			Terminal.setWorking(true);
 		} else {
@@ -619,59 +537,13 @@ TerminalShell.fallback = function(terminal, cmd) {
 	return true;
 };
 
-var konamiCount = 0;
 $(document).ready(function() {
 	Terminal.promptActive = false;
-	function noData() {
-		Terminal.print($('<p>').addClass('error').text('Unable to load startup data. :-('));
-		Terminal.promptActive = true;
-	}
 	$('#screen').bind('cli-load', function(e) {
-		xkcd.get(null, function(data) {
-			if (data) {
-				xkcd.latest = data;
-				$('#screen').one('cli-ready', function(e) {
-					Terminal.runCommand('cat welcome.txt');
-				});
-				Terminal.runCommand('cat welcome.txt');
-			} else {
-				noData();
-			}
-		}, noData);
+		$('#screen').one('cli-ready', function(e) {
+			Terminal.runCommand('cat welcome.txt');
+		});
+		Terminal.runCommand('cat welcome.txt');
 	});
 	
-	$(document).konami(function(){
-		function shake(elems) {
-			elems.css('position', 'relative');
-			return window.setInterval(function() {
-				elems.css({top:getRandomInt(-3, 3), left:getRandomInt(-3, 3)});
-			}, 100);	
-		}
-		
-		if (konamiCount == 0) {
-			$('#screen').css('text-transform', 'uppercase');
-		} else if (konamiCount == 1) {
-			$('#screen').css('text-shadow', 'gray 0 0 2px');
-		} else if (konamiCount == 2) {
-			$('#screen').css('text-shadow', 'orangered 0 0 10px');
-		} else if (konamiCount == 3) {
-			shake($('#screen'));
-		} else if (konamiCount == 4) {
-			$('#screen').css('background', 'url(./stardots.png)');
-		}
-		
-		$('<div>')
-			.height('100%').width('100%')
-			.css({background:'white', position:'absolute', top:0, left:0})
-			.appendTo($('body'))
-			.show()
-			.fadeOut(1000);
-		
-		if (Terminal.buffer.substring(Terminal.buffer.length-2) == 'ba') {
-			Terminal.buffer = Terminal.buffer.substring(0, Terminal.buffer.length-2);
-			Terminal.updateInputDisplay();
-		}
-		TerminalShell.sudo = true;
-		konamiCount += 1;
-	});
 });
