@@ -3,14 +3,11 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
   <title>guest@atr.me</title>
-  <link rel="alternate" type="application/atom+xml" title="Atom 1.0" href="/atom.xml" />
-  <link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="/rss.xml" />
-
   <link rel="shortcut icon" href="http://cf.cdn.blog.atr.me/wp-content/favicon.png" type="image/x-icon" />
 
   <link rel="stylesheet" type="text/css" href="style.css" media="screen" title="Default" />
 
-  <script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery/jquery-2.1.1.min.js"></script>
+  <script type="text/javascript" src="//ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.1.min.js"></script>
   
   <!-- MINIFY: -->
   <script type="text/javascript" src="jquery.hotkeys-0.7.9.js"></script>
@@ -39,8 +36,10 @@
   <div id="indicators"><span id="alt-indicator">Alt-</span><span id="ctrl-indicator">Ctrl-</span> <span id="scroll-indicator">SCR LOCK</span></div>
   <div id="screen">
    <div id="display">
-    <div id="welcome">
+    <div id="welcome-title">
       <h1>蘑菇天文馆 - 命令行入口</h1>
+    </div>
+    <div id="welcome-slogan">
       <h2>我曾与你一同呼吸，那些乘着星辉的凉风</h2>
     </div>
     <noscript>
@@ -53,5 +52,20 @@
   </div>
   <div id="credit">Art by <a href="http://xkcd.com/about/">Randall Munroe</a>. XKCD CLI by <a href="http://chromakode.com">Chromakode</a>. Original CLI2 by <a href="http://thrind.xamai.ca">Rod McFarland</a>. <a href="https://github.com/AstroProfundis/cli-entrance">Source code</a>.</div>
 </body>
+<script type="text/javascript">
+  setTimeout(function(){
+    var hjs=document.createElement('script');
+    hjs.setAttribute('src','//api.hitokoto.us/rand?encode=jsc&charset=utf-8&fun=save_hitokoto');
+    document.body.appendChild(hjs);
+  },200);
+
+  function save_hitokoto(response){
+    console.log(response);
+    credit = $('#credit').html();
+    credit += ' | <span title="' + response.source + ' | ' + response.catname;
+    credit += '">' + response.hitokoto + '</span>';
+    $('#credit').html(credit);
+  }
+</script>
 </html>
 
